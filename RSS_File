@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>Video SharePoint – Grupo Kaufmann</title>
+    <link>https://grupokaufmann.cl</link>
+    <description>Feed RSS con video e imagen previa</description>
+    <language>es</language>
+
+    <item>
+      <title>Video Compartido – SharePoint</title>
+
+      <!-- ENLACE DEL VIDEO -->
+      <link>https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml</link>
+
+      <!-- IMAGEN PREVIA -->
+      <media:thumbnail url="https://via.placeholder.com/800x450.png?text=Video+Thumbnail"/>
+
+      <!-- OPCIONAL: IMAGEN PRINCIPAL -->
+      <media:content
+          url="https://via.placeholder.com/800x450.png?text=Video+Thumbnail"
+          medium="image"/>
+
+      <description>Video almacenado en SharePoint con miniatura previa.</description>
+
+      <guid isPermaLink="false">sharepoint-video-001</guid>
+      <pubDate>Tue, 04 Feb 2025 12:00:00 GMT</pubDate>
+    </item>
+
+  </channel>
+</rss>
