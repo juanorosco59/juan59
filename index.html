@@ -1,52 +1,75 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f4f7f6; }
-        .sap-button {
-            background-color: #0854a0; color: white; padding: 15px 30px; border: none;
-            border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: bold;
-        }
-    </style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <button class="sap-button" onclick="launchNavigation()">Test IOs</button>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f7f6;
+      }
+
+      .sap-button {
+        background-color: #0854a0;
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <button class="sap-button" onclick="launchNavigation()">
+      Test IOs
+    </button>
 
     <script>
-        function launchNavigation() {
-            // 1. Extraer parámetros
-            const urlParams = new URLSearchParams(window.location.search);
-            const idVisita = urlParams.get('idVisita') || "Sin_IdVisita";
+      function launchNavigation() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const idVisita = urlParams.get("idVisita") || "Sin_IdVisita";
 
-            // 2. DETECCIÓN: ¿Es un dispositivo móvil?
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            
-            // Creamos una etiqueta de texto según el resultado
-            const dispositivoTag = isMobile ? "Móvil_iOS_Android" : "Escritorio_Web";
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(
+          navigator.userAgent
+        );
+        const dispositivoTag = isMobile
+          ? "Celular_iOS_Android"
+          : "Escritorio";
 
-            // 3. CONCATENAR: Agregamos el resultado de la detección a la búsqueda
-            // Esto buscará, por ejemplo: "V-100234 (Deteccion: Móvil_iOS_Android)"
-            let queryText = `${idVisita} (Deteccion: ${dispositivoTag})`;
-            const urlDestino = "https://www.google.com/search?q=" + encodeURIComponent(queryText);
+        const queryText = `${idVisita} (Deteccion: ${dispositivoTag})`;
 
-            // 4. Lógica de navegación
-            try {
-                if (isMobile && window.top && window.top !== window) {
-                    // Si es móvil y está en iFrame, saltamos al top para iOS
-                    window.top.location.href = urlDestino;
-                } else {
-                    // Si es PC, abrimos pestaña nueva (comportamiento actual web)
-                    const newWin = window.open(urlDestino, '_blank');
-                    if (!newWin) window.location.assign(urlDestino);
-                }
-            } catch (e) {
-                // Fallback si falla el acceso a window.top
-                window.location.assign(urlDestino);
+        const urlDestino =
+          "https://www.google.com/search?q=" +
+          encodeURIComponent(queryText);
+
+        // Inicio - Navegación nueva
+          
+        try {
+          if (isMobile && window.top && window.top !== window) {
+            // Si es móvil y está en iFrame, saltamos al top para iOS
+            window.top.location.href = urlDestino;
+          } else {
+            // Si es PC abrimos pestaña nueva (comportamiento actual)
+            const newWin = window.open(urlDestino, "_blank");
+            if (!newWin) {
+              window.location.assign(urlDestino);
             }
+          }
+        } catch (e) {
+          // Fallback si falla el acceso a window.top
+          window.location.assign(urlDestino);
         }
+        // Fin - Navegación nueva
+      }
     </script>
-</body>
+  </body>
 </html>
