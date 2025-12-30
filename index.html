@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f4f7f6; }
+        .sap-button {
+            background-color: #0854a0; /* Azul SAP */
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .sap-button:hover { background-color: #0a6ed1; }
+    </style>
+</head>
+<body>
+
+    <button class="sap-button" onclick="openLink()">Abrir Enlace Externo</button>
+
+    <script>
+        function openLink() {
+            // Reemplaza con la URL que desees
+            const url = "https://www.google.com";
+            
+            // window.open con _blank es la forma estándar de invocar el navegador nativo
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
