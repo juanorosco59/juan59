@@ -6,32 +6,32 @@
     <style>
         body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f4f7f6; }
         .sap-button {
-            background-color: #0854a0; color: white; padding: 12px 24px; border: none;
-            border-radius: 4px; cursor: pointer; font-size: 16px;
+            background-color: #0854a0; color: white; padding: 15px 30px; border: none;
+            border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <button class="sap-button" onclick="openLink()">Abrir</button>
+    <button class="sap-button" onclick="launchNavigation()">Abrir IOS</button>
 
     <script>
-        function openLink() {
+        function launchNavigation() {
             const url = "https://www.google.com";
-            
-            // Intento 1: Crear un enlace invisible y simular click (Mejor para iOS)
-            const a = document.createElement('a');
-            a.href = url;
-            a.target = '_blank';
-            a.rel = 'noopener noreferrer';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
 
-            // Intento 2: Respaldo (Fallback) si el anterior falla
-            setTimeout(() => {
-                window.open(url, '_blank');
-            }, 100);
+            try {
+                // INTENTO 1: Usar la ventana superior (window.top) para saltar el sandbox del iframe
+                // Esto suele funcionar mejor en el cliente móvil de SAP
+                if (window.top) {
+                    window.top.location.href = url;
+                } else {
+                    window.open(url, '_blank');
+                }
+            } catch (e) {
+                // INTENTO 2: Si hay error de origen cruzado (CORS), usamos el fallback directo
+                console.log("Error con window.top, intentando normal...");
+                window.location.assign(url);
+            }
         }
     </script>
 </body>
