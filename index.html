@@ -13,29 +13,39 @@
 </head>
 <body>
 
-    <button class="sap-button" onclick="launchNavigation()">Buscar IOs</button>
+    <button class="sap-button" onclick="launchNavigation()">Buscar</button>
 
     <script>
         function launchNavigation() {
             // 1. Extraer los parámetros de la URL actual
             const urlParams = new URLSearchParams(window.location.search);
-            
-            // 2. Obtener el valor de 'idVisita' (el nombre debe coincidir con el que configuraste en SAP)
             const idVisita = urlParams.get('idVisita');
 
-            // 3. Construir la URL de búsqueda (si no hay ID, busca "SAP Sales Cloud")
+            // 2. Construir la URL de búsqueda
             let query = idVisita ? encodeURIComponent(idVisita) : "SAP+Sales+Cloud";
             const urlDestino = "https://www.google.com/search?q=" + query;
 
+            // 3. Detectar si es un dispositivo móvil (iOS o Android)
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
             try {
-                // Clave para iOS: Navegar desde la ventana superior
-                if (window.top) {
+                if (isMobile && window.top && window.top !== window) {
+                    // COMPORTAMIENTO MÓVIL (iOS/Android App):
+                    // Usamos window.top para que la App de SAP lance el navegador del sistema.
                     window.top.location.href = urlDestino;
                 } else {
-                    window.open(urlDestino, '_blank');
+                    // COMPORTAMIENTO WEB (PC/Escritorio):
+                    // Abrimos pestaña nueva como ocurre actualmente en web.
+                    const newWin = window.open(urlDestino, '_blank');
+                    
+                    // Si un bloqueador de popups en PC lo detiene, abrir en el mismo frame
+                    if (!newWin) {
+                        window.location.assign(urlDestino);
+                    }
                 }
             } catch (e) {
-                console.log("Error con window.top, usando fallback...");
+                // FALLBACK: Si hay errores de seguridad (CORS), navegar en el frame actual
+                console.log("Error de acceso a ventana superior, usando fallback local...");
                 window.location.assign(urlDestino);
             }
         }
