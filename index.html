@@ -13,22 +13,20 @@
 </head>
 <body>
 
-    <button class="sap-button" onclick="launchNavigation()">Abrir IOS</button>
+    <button class="sap-button" onclick="launchNavigation()">Abrir IOs</button>
 
     <script>
         function launchNavigation() {
-            const url = "https://www.google.com";
+            const url = "https://www.elpais.com";
 
             try {
-                // INTENTO 1: Usar la ventana superior (window.top) para saltar el sandbox del iframe
-                // Esto suele funcionar mejor en el cliente móvil de SAP
                 if (window.top) {
                     window.top.location.href = url;
                 } else {
                     window.open(url, '_blank');
                 }
             } catch (e) {
-                // INTENTO 2: Si hay error de origen cruzado (CORS), usamos el fallback directo
+                
                 console.log("Error con window.top, intentando normal...");
                 window.location.assign(url);
             }
