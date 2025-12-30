@@ -13,39 +13,37 @@
 </head>
 <body>
 
-    <button class="sap-button" onclick="launchNavigation()">Buscar</button>
+    <button class="sap-button" onclick="launchNavigation()">Test IOs</button>
 
     <script>
         function launchNavigation() {
-            // 1. Extraer los parámetros de la URL actual
+            // 1. Extraer parámetros
             const urlParams = new URLSearchParams(window.location.search);
-            const idVisita = urlParams.get('idVisita');
+            const idVisita = urlParams.get('idVisita') || "Sin_IdVisita";
 
-            // 2. Construir la URL de búsqueda
-            let query = idVisita ? encodeURIComponent(idVisita) : "SAP+Sales+Cloud";
-            const urlDestino = "https://www.google.com/search?q=" + query;
-
-            // 3. Detectar si es un dispositivo móvil (iOS o Android)
+            // 2. DETECCIÓN: ¿Es un dispositivo móvil?
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            
+            // Creamos una etiqueta de texto según el resultado
+            const dispositivoTag = isMobile ? "Móvil_iOS_Android" : "Escritorio_Web";
 
+            // 3. CONCATENAR: Agregamos el resultado de la detección a la búsqueda
+            // Esto buscará, por ejemplo: "V-100234 (Deteccion: Móvil_iOS_Android)"
+            let queryText = `${idVisita} (Deteccion: ${dispositivoTag})`;
+            const urlDestino = "https://www.google.com/search?q=" + encodeURIComponent(queryText);
+
+            // 4. Lógica de navegación
             try {
                 if (isMobile && window.top && window.top !== window) {
-                    // COMPORTAMIENTO MÓVIL (iOS/Android App):
-                    // Usamos window.top para que la App de SAP lance el navegador del sistema.
+                    // Si es móvil y está en iFrame, saltamos al top para iOS
                     window.top.location.href = urlDestino;
                 } else {
-                    // COMPORTAMIENTO WEB (PC/Escritorio):
-                    // Abrimos pestaña nueva como ocurre actualmente en web.
+                    // Si es PC, abrimos pestaña nueva (comportamiento actual web)
                     const newWin = window.open(urlDestino, '_blank');
-                    
-                    // Si un bloqueador de popups en PC lo detiene, abrir en el mismo frame
-                    if (!newWin) {
-                        window.location.assign(urlDestino);
-                    }
+                    if (!newWin) window.location.assign(urlDestino);
                 }
             } catch (e) {
-                // FALLBACK: Si hay errores de seguridad (CORS), navegar en el frame actual
-                console.log("Error de acceso a ventana superior, usando fallback local...");
+                // Fallback si falla el acceso a window.top
                 window.location.assign(urlDestino);
             }
         }
