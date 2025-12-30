@@ -2,19 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f4f7f6; }
         .sap-button {
-            background-color: #0854a0; /* Azul SAP */
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
+            background-color: #0854a0; color: white; padding: 12px 24px; border: none;
+            border-radius: 4px; cursor: pointer; font-size: 16px;
         }
-        .sap-button:hover { background-color: #0a6ed1; }
     </style>
 </head>
 <body>
@@ -23,11 +17,21 @@
 
     <script>
         function openLink() {
-            // Reemplaza con la URL que desees
             const url = "https://www.google.com";
             
-            // window.open con _blank es la forma estándar de invocar el navegador nativo
-            window.open(url, '_blank');
+            // Intento 1: Crear un enlace invisible y simular click (Mejor para iOS)
+            const a = document.createElement('a');
+            a.href = url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            // Intento 2: Respaldo (Fallback) si el anterior falla
+            setTimeout(() => {
+                window.open(url, '_blank');
+            }, 100);
         }
     </script>
 </body>
