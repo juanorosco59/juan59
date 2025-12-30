@@ -13,22 +13,30 @@
 </head>
 <body>
 
-    <button class="sap-button" onclick="launchNavigation()">Abrir IOs</button>
+    <button class="sap-button" onclick="launchNavigation()">Buscar IOs</button>
 
     <script>
         function launchNavigation() {
-            const url = "https://www.google.com";
+            // 1. Extraer los parámetros de la URL actual
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // 2. Obtener el valor de 'idVisita' (el nombre debe coincidir con el que configuraste en SAP)
+            const idVisita = urlParams.get('idVisita');
+
+            // 3. Construir la URL de búsqueda (si no hay ID, busca "SAP Sales Cloud")
+            let query = idVisita ? encodeURIComponent(idVisita) : "SAP+Sales+Cloud";
+            const urlDestino = "https://www.google.com/search?q=" + query;
 
             try {
+                // Clave para iOS: Navegar desde la ventana superior
                 if (window.top) {
-                    window.top.location.href = url;
+                    window.top.location.href = urlDestino;
                 } else {
-                    window.open(url, '_blank');
+                    window.open(urlDestino, '_blank');
                 }
             } catch (e) {
-                
-                console.log("Error con window.top, intentando normal...");
-                window.location.assign(url);
+                console.log("Error con window.top, usando fallback...");
+                window.location.assign(urlDestino);
             }
         }
     </script>
