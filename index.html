@@ -8,13 +8,13 @@
       body {
         font-family: Arial, sans-serif;
         display: flex;
-        flex-direction: column; /* Para apilar botones */
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100vh;
         margin: 0;
         background-color: #f4f7f6;
-        gap: 20px; /* Separación entre botones */
+        gap: 20px;
       }
 
       .sap-button {
@@ -39,10 +39,10 @@
     </button>
 
     <!-- ===================================================== -->
-    <!-- NUEVO BOTÓN PDF - INDEPENDIENTE DEL BOTÓN EXISTENTE   -->
+    <!-- NUEVO BOTÓN - ABRIR PDF (USANDO BLOB)                 -->
     <!-- ===================================================== -->
-    <button class="sap-button" onclick="openPDF()">
-      Abrir Formato PDF
+    <button class="sap-button" onclick="openPdfWithBlob()">
+      Abrir PDF 1.0
     </button>
 
     <script>
@@ -53,15 +53,12 @@
         const urlParams = new URLSearchParams(window.location.search);
         const idVisita = urlParams.get("idVisita") || "Sin_IdVisita";
 
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(
-          navigator.userAgent
-        );
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         const dispositivoTag = isMobile
           ? "Celular_iOS_Android"
           : "Escritorio";
 
         const queryText = `${idVisita} (Deteccion: ${dispositivoTag})`;
-
         const urlDestino =
           "https://www.google.com/search?q=" +
           encodeURIComponent(queryText);
@@ -81,30 +78,41 @@
       }
 
       /* ===================================================== */
-      /* NUEVA FUNCIÓN PDF - TOTALMENTE SEPARADA               */
+      /* NUEVA FUNCIÓN - ABRIR PDF USANDO BLOB                 */
       /* ===================================================== */
-      function openPDF() {
-        const pdfUrl = "https://tusitio.com/formato.pdf"; // <-- CAMBIAR URL
-
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(
-          navigator.userAgent
-        );
-
+      async function openPdfWithBlob() {
         try {
-          if (isMobile) {
-            // Mejor compatibilidad en móviles (iOS/Android)
-            window.location.href = pdfUrl;
-          } else {
-            // Escritorio: abrir en nueva pestaña
-            const newWin = window.open(pdfUrl, "_blank");
-            if (!newWin) {
-              window.location.assign(pdfUrl);
-            }
+          // 👉 PDF CUALQUIERA (local o remoto)
+          const pdfUrl = "archivo.pdf"; // CAMBIA SOLO ESTA RUTA
+
+          // Obtener el PDF como Blob
+          const response = await fetch(pdfUrl);
+          if (!response.ok) {
+            throw new Error("No se pudo obtener el PDF");
           }
-        } catch (e) {
-          window.location.assign(pdfUrl);
+
+          const blob = await response.blob();
+
+          // Crear URL temporal del Blob
+          const url = window.URL.createObjectURL(blob);
+
+          // Abrir PDF en ventana emergente
+          const popupWindow = window.open(
+            url,
+            "_blank",
+            "width=800,height=600,scrollbars=yes,resizable=yes"
+          );
+
+          // Liberar el objeto URL después de usarlo
+          setTimeout(() => {
+            window.URL.revokeObjectURL(url);
+          }, 1000);
+        } catch (error) {
+          console.error("Error al abrir el PDF:", error);
+          alert("No se pudo abrir el PDF");
         }
       }
     </script>
   </body>
 </html>
+
