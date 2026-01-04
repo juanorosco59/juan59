@@ -32,22 +32,22 @@
 
   <body>
     <!-- ===================================================== -->
-    <!-- BOTÓN EXISTENTE - NO MODIFICAR                        -->
+    <!-- BOTÓN 1 - NAVEGACIÓN EXISTENTE (NO MODIFICAR)         -->
     <!-- ===================================================== -->
     <button class="sap-button" onclick="launchNavigation()">
-      Test 5.0 IOs
+      Test 6.0 IOs
     </button>
 
     <!-- ===================================================== -->
-    <!-- BOTÓN FINAL - ABRIR PDF EN GITHUB PAGES               -->
+    <!-- BOTÓN 2 - ABRIR PDF (MISMA LÓGICA QUE BOTÓN 1)        -->
     <!-- ===================================================== -->
-    <button class="sap-button" onclick="openPdfSeguro()">
-      Abrir PDF 5.0
+    <button class="sap-button" onclick="openPdfMismaLogica()">
+      Abrir PDF 6.0
     </button>
 
     <script>
       /* ===================================================== */
-      /* FUNCIÓN EXISTENTE - NO MODIFICAR                      */
+      /* BOTÓN 1 - LÓGICA EXISTENTE                            */
       /* ===================================================== */
       function launchNavigation() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -65,8 +65,10 @@
 
         try {
           if (isMobile && window.top && window.top !== window) {
-            window.top.location.href = urlDestino;
+            // 📱 Mobile dentro de iframe → abre dentro del iframe
+            window.location.href = urlDestino;
           } else {
+            // 🖥️ Escritorio → nueva pestaña
             const newWin = window.open(urlDestino, "_blank");
             if (!newWin) {
               window.location.assign(urlDestino);
@@ -78,17 +80,31 @@
       }
 
       /* ===================================================== */
-      /* FUNCIÓN FINAL - ABRIR PDF (FORMA CORRECTA)            */
+      /* BOTÓN 2 - PDF (MISMA LÓGICA QUE BOTÓN 1)              */
       /* ===================================================== */
-      function openPdfSeguro() {
-        // PDF está en la raíz del repo "juan59"
+      function openPdfMismaLogica() {
         const pdfUrl = "VPN_Kaufmann.pdf";
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-        window.open(
-          pdfUrl,
-          "_blank",
-          "width=800,height=600,scrollbars=yes,resizable=yes"
-        );
+        try {
+          if (isMobile && window.top && window.top !== window) {
+            // 📱 Mobile dentro de iframe → abre PDF dentro del iframe
+            window.location.href = pdfUrl;
+          } else {
+            // 🖥️ Escritorio → nueva pestaña
+            const newWin = window.open(
+              pdfUrl,
+              "_blank",
+              "width=800,height=600,scrollbars=yes,resizable=yes"
+            );
+
+            if (!newWin) {
+              window.location.assign(pdfUrl);
+            }
+          }
+        } catch (e) {
+          window.location.assign(pdfUrl);
+        }
       }
     </script>
   </body>
