@@ -31,24 +31,18 @@
   </head>
 
   <body>
-    <!-- ===================================================== -->
-    <!-- BOTÓN 1 - NAVEGACIÓN EXISTENTE (NO MODIFICAR)         -->
-    <!-- ===================================================== -->
+    <!-- Navegación de URL's         -->
     <button class="sap-button" onclick="launchNavigation()">
-      Test 7.0 IOs
+      Test 8.0 IOs
     </button>
 
-    <!-- ===================================================== -->
-    <!-- BOTÓN 2 - ABRIR PDF (MISMA LÓGICA QUE BOTÓN 1)        -->
-    <!-- ===================================================== -->
+    <!-- Navegación con apertura de PDF      -->
     <button class="sap-button" onclick="openPdfMismaLogica()">
-      Abrir PDF 7.0
+      Abrir PDF 8.0
     </button>
 
     <script>
-      /* ===================================================== */
-      /* BOTÓN 1 - LÓGICA EXISTENTE                            */
-      /* ===================================================== */
+      /* Función para abrir URL                           */
       function launchNavigation() {
         const urlParams = new URLSearchParams(window.location.search);
         const idVisita = urlParams.get("idVisita") || "Sin_IdVisita";
@@ -79,19 +73,17 @@
         }
       }
 
-      /* ===================================================== */
-      /* BOTÓN 2 - PDF (MISMA LÓGICA QUE BOTÓN 1)              */
-      /* ===================================================== */
+      /* Función para abrir PDF             */
       function openPdfMismaLogica() {
         const pdfUrl = "VPN_Kaufmann.pdf";
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
         try {
           if (isMobile && window.top && window.top !== window) {
-            // 📱 Mobile dentro de iframe → abre PDF dentro del iframe
+            // Mobile dentro de iframe : abre PDF dentro del iframe
             window.location.href = pdfUrl;
           } else {
-            // 🖥️ Escritorio → nueva pestaña
+            // Escritorio : nueva pestaña
             const newWin = window.open(
               pdfUrl,
               "_blank",
