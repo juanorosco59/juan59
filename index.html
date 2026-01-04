@@ -8,11 +8,13 @@
       body {
         font-family: Arial, sans-serif;
         display: flex;
+        flex-direction: column; /* Para apilar botones */
         justify-content: center;
         align-items: center;
         height: 100vh;
         margin: 0;
         background-color: #f4f7f6;
+        gap: 20px; /* Separación entre botones */
       }
 
       .sap-button {
@@ -29,11 +31,24 @@
   </head>
 
   <body>
+    <!-- ===================================================== -->
+    <!-- BOTÓN EXISTENTE - NO MODIFICAR                        -->
+    <!-- ===================================================== -->
     <button class="sap-button" onclick="launchNavigation()">
       Test 2.0 IOs
     </button>
 
+    <!-- ===================================================== -->
+    <!-- NUEVO BOTÓN PDF - INDEPENDIENTE DEL BOTÓN EXISTENTE   -->
+    <!-- ===================================================== -->
+    <button class="sap-button" onclick="openPDF()">
+      Abrir Formato PDF
+    </button>
+
     <script>
+      /* ===================================================== */
+      /* FUNCIÓN EXISTENTE - NO MODIFICAR                      */
+      /* ===================================================== */
       function launchNavigation() {
         const urlParams = new URLSearchParams(window.location.search);
         const idVisita = urlParams.get("idVisita") || "Sin_IdVisita";
@@ -51,24 +66,44 @@
           "https://www.google.com/search?q=" +
           encodeURIComponent(queryText);
 
-        // Inicio - Navegación nueva
-          
         try {
           if (isMobile && window.top && window.top !== window) {
-            // Si es móvil y está en iFrame, saltamos al top para iOS
             window.top.location.href = urlDestino;
           } else {
-            // Si es PC abrimos pestaña nueva (comportamiento actual)
             const newWin = window.open(urlDestino, "_blank");
             if (!newWin) {
               window.location.assign(urlDestino);
             }
           }
         } catch (e) {
-          // Fallback si falla el acceso a window.top
           window.location.assign(urlDestino);
         }
-        // Fin - Navegación nueva
+      }
+
+      /* ===================================================== */
+      /* NUEVA FUNCIÓN PDF - TOTALMENTE SEPARADA               */
+      /* ===================================================== */
+      function openPDF() {
+        const pdfUrl = "https://tusitio.com/formato.pdf"; // <-- CAMBIAR URL
+
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(
+          navigator.userAgent
+        );
+
+        try {
+          if (isMobile) {
+            // Mejor compatibilidad en móviles (iOS/Android)
+            window.location.href = pdfUrl;
+          } else {
+            // Escritorio: abrir en nueva pestaña
+            const newWin = window.open(pdfUrl, "_blank");
+            if (!newWin) {
+              window.location.assign(pdfUrl);
+            }
+          }
+        } catch (e) {
+          window.location.assign(pdfUrl);
+        }
       }
     </script>
   </body>
