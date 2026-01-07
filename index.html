@@ -27,22 +27,54 @@
         font-size: 18px;
         font-weight: bold;
       }
+
+      .sap-section {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px dashed #ccc;
+        width: 100%;
+        text-align: center;
+      }
+
+      .sap-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+      }
     </style>
   </head>
 
   <body>
-    <!-- Navegación de URL's         -->
+    <!-- ========================= -->
+    <!-- NAVEGACIÓN WEB NORMAL     -->
+    <!-- ========================= -->
+
     <button class="sap-button" onclick="launchNavigation()">
-      Test 8.0 IOs
+      Test 8.0 iOS
     </button>
 
-    <!-- Navegación con apertura de PDF      -->
     <button class="sap-button" onclick="openPdfMismaLogica()">
       Abrir PDF 8.0
     </button>
 
+    <!-- ========================= -->
+    <!-- EVENTOS SAP SALES CLOUD V2 -->
+    <!-- ========================= -->
+
+    <div class="sap-section">
+      <div class="sap-title">Acción SAP Sales Cloud v2</div>
+
+      <button class="sap-button" onclick="navigateToSapCustomer()">
+        Ir a Cliente SAP
+      </button>
+    </div>
+
     <script>
-      /* Función para abrir URL                           */
+      /* ===================================================== */
+      /* LÓGICA WEB NORMAL                                     */
+      /* ===================================================== */
+
       function launchNavigation() {
         const urlParams = new URLSearchParams(window.location.search);
         const idVisita = urlParams.get("idVisita") || "Sin_IdVisita";
@@ -59,10 +91,8 @@
 
         try {
           if (isMobile && window.top && window.top !== window) {
-            // 📱 Mobile dentro de iframe → abre dentro del iframe
             window.location.href = urlDestino;
           } else {
-            // 🖥️ Escritorio → nueva pestaña
             const newWin = window.open(urlDestino, "_blank");
             if (!newWin) {
               window.location.assign(urlDestino);
@@ -73,17 +103,14 @@
         }
       }
 
-      /* Función para abrir PDF             */
       function openPdfMismaLogica() {
         const pdfUrl = "VPN_Kaufmann.pdf";
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
         try {
           if (isMobile && window.top && window.top !== window) {
-            // Mobile dentro de iframe : abre PDF dentro del iframe
             window.location.href = pdfUrl;
           } else {
-            // Escritorio : nueva pestaña
             const newWin = window.open(
               pdfUrl,
               "_blank",
@@ -96,6 +123,34 @@
           }
         } catch (e) {
           window.location.assign(pdfUrl);
+        }
+      }
+
+      /* ===================================================== */
+      /* LÓGICA SAP SALES CLOUD V2 (SEPARADA)                  */
+      /* ===================================================== */
+
+      function navigateToSapCustomer() {
+        const sapEvent = {
+          type: "sap.crm.event",
+          event: {
+            operation: "navigation",
+            params: {
+              objectKey: "11effdbc-ddd0-a24e-afdb-811bf0020a00",
+              routingKey: "individualCustomer",
+              viewType: "details"
+            }
+          }
+        };
+
+        try {
+          if (window.parent) {
+            window.parent.postMessage(sapEvent, "*");
+          } else {
+            console.warn("SAP parent window no disponible");
+          }
+        } catch (e) {
+          console.error("Error enviando evento SAP", e);
         }
       }
     </script>
