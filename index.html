@@ -66,7 +66,7 @@
       <div class="sap-title">Acción SAP Sales Cloud v2</div>
 
       <button class="sap-button" onclick="navigateToSapCustomer()">
-        Ir a Cliente SAP
+        Ir a Cliente SAP 2.0
       </button>
     </div>
 
@@ -130,29 +130,23 @@
       /* LÓGICA SAP SALES CLOUD V2 (SEPARADA)                  */
       /* ===================================================== */
 
-      function navigateToSapCustomer() {
-        const sapEvent = {
-          type: "sap.crm.event",
-          event: {
-            operation: "navigation",
-            params: {
-              objectKey: "11effdbc-ddd0-a24e-afdb-811bf0020a00",
-              routingKey: "individualCustomer",
-              viewType: "details"
-            }
-          }
-        };
-
-        try {
-          if (window.parent) {
-            window.parent.postMessage(sapEvent, "*");
-          } else {
-            console.warn("SAP parent window no disponible");
-          }
-        } catch (e) {
-          console.error("Error enviando evento SAP", e);
-        }
+  function navigateToSapCustomer() {
+    const sapEvent = {
+      operation: "navigation",
+      params: {
+        objectKey: "11effdbc-ddd0-a24e-afdb-811bf0020a00",
+        routingKey: "individualCustomer",
+        viewType: "details"
       }
+    };
+
+    try {
+      // ✅ SAP Sales Cloud v2 espera el evento PLANO
+      window.parent.postMessage(sapEvent, "*");
+    } catch (e) {
+      console.error("Error enviando evento SAP", e);
+    }
+  }
     </script>
   </body>
 </html>
