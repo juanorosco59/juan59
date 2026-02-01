@@ -70,6 +70,19 @@
       </button>
     </div>
 
+
+        <!-- ========================= -->
+    <!-- Call Refresh -->
+    <!-- ========================= -->
+
+    <div class="sap-section">
+      <div class="sap-title">Refresh</div>
+
+      <button class="sap-button" onclick="callRefresh()">
+        Refresh
+      </button>
+    </div>
+
     <script>
       /* ===================================================== */
       /* LÓGICA WEB NORMAL                                     */
@@ -147,6 +160,18 @@
       console.error("Error enviando evento SAP", e);
     }
   }
+    
+          /* ===================================================== */
+      /* LÓGICA SAP REFRESH                 */
+      /* ===================================================== */
+
+  function navigateToSapCustomer() {
+    var event = {  event: "refresh_mashup",
+                  operation: "triggerCustomAction"
+    };
+      window.parent.postMessage(event, '*')
+    };
+    
     </script>
   </body>
 </html>
