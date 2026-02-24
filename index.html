@@ -118,6 +118,7 @@
 
       function openPdfMismaLogica() {
         const pdfUrl = "VPN_Kaufmann.pdf";
+        const pdfUrl2 = "";
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
         try {
@@ -132,7 +133,7 @@
             );
 
             if (!newWin) {
-              window.location.assign(pdfUrl);
+              window.location.assign(pdfUrl2);
             }
           }
         } catch (e) {
