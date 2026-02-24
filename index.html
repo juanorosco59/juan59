@@ -55,7 +55,7 @@
     </button>
 
     <button class="sap-button" onclick="openPdfMismaLogica()">
-      Abrir PDF 8.0
+      Abrir PDF 8.1
     </button>
 
     <!-- ========================= -->
@@ -122,7 +122,8 @@
 
         try {
           if (isMobile && window.top && window.top !== window) {
-            window.location.href = pdfUrl;
+            //window.location.href = pdfUrl;
+            window.top.location.href = pdfUrl;
           } else {
             const newWin = window.open(
               pdfUrl,
@@ -137,6 +138,7 @@
         } catch (e) {
           window.location.assign(pdfUrl);
         }
+        
       }
 
       /* ===================================================== */
