@@ -143,7 +143,7 @@
       }
 
       /* ===================================================== */
-      /* LÓGICA SAP SALES CLOUD V2 (SEPARADA)                  */
+      /* LÓGICA SAP SALES CLOUD V2                */
       /* ===================================================== */
 
   function navigateToSapCustomer() {
@@ -157,7 +157,7 @@
     };
 
     try {
-      // ✅ SAP Sales Cloud v2 espera el evento PLANO
+      //
       window.parent.postMessage(sapEvent, "*");
     } catch (e) {
       console.error("Error enviando evento SAP", e);
