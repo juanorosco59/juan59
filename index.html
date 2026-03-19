@@ -83,6 +83,19 @@
       </button>
     </div>
 
+
+    <!-- ========================= -->
+<!-- PARAMS URL DISPLAY        -->
+<!-- ========================= -->
+
+<div class="sap-section">
+  <div class="sap-title">Parámetros de la URL</div>
+
+  <p id="url-status"></p>
+  <p id="url-pass"></p>
+  <p id="url-subject"></p>
+</div>
+
     <script>
       /* ===================================================== */
       /* LÓGICA WEB NORMAL                                     */
@@ -176,6 +189,27 @@
     };
     
     </script>
+
+              /* ===================================================== */
+      /* Params               */
+      /* ===================================================== */
+
+    <script>
+  function mostrarParametrosURL() {
+    const params = new URLSearchParams(window.location.search);
+
+    const status = params.get("status") || "N/A";
+    const pass = params.get("pass") || "N/A";
+    const subject = params.get("subject") || "N/A";
+
+    document.getElementById("url-status").innerText = "Status: " + status;
+    document.getElementById("url-pass").innerText = "Pass: " + pass;
+    document.getElementById("url-subject").innerText = "Subject: " + subject;
+  }
+
+  // Ejecutar al cargar la página
+  window.onload = mostrarParametrosURL;
+</script>
   </body>
 </html>
 
