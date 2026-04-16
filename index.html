@@ -84,6 +84,17 @@
     </div>
 
 
+        <div class="sap-section">
+      <div class="sap-title">callCreate</div>
+
+      <button class="sap-button" onclick="openNewCnsCaseCreate()">
+        callCreate
+      </button>
+    </div>
+
+    
+
+
     <!-- ========================= -->
 <!-- PARAMS URL DISPLAY        -->
 <!-- ========================= -->
@@ -187,6 +198,13 @@
     };
       window.parent.postMessage(event, '*')
     };
+
+
+      // Open Case Quick Create view
+function openNewCnsCaseCreate() {
+  	var oCase={operation:"navigation", params: {routingKey: "case", viewType:"quickcreate"}};
+	self.window.parent.postMessage(oCase, '*')
+}
     
     </script>
 
