@@ -202,15 +202,21 @@ viewType: "quickview"
     };
 
 
-      // Open Case Quick Create view
 function openNewCnsCaseCreate() {
-  	var oCase={operation:"navigation", params: {routingKey: "task", viewType:"quickcreate",         initialValues: {
-                description: "Nuevo caso desde script"
-                // Si es un campo de extensión, asegúrate de usar su nombre técnico exacto
-                // priority: "HIGH" 
+    var oCase = {
+        operation: "navigation",
+        params: {
+            routingKey: "task",
+            viewType: "quickcreate",
+            initialValues: {
+                description: "Nuevo caso desde script",   // usar nombre técnico correcto
+                priority: "HIGH",                         // ejemplo adicional
+                status: "OPEN"                            // depende del objeto
             }
-											   }};
-	self.window.parent.postMessage(oCase, '*')
+        }
+    };
+
+    window.parent.postMessage(oCase, "*");
 }
 
 
