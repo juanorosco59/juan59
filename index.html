@@ -208,13 +208,23 @@ function openNewCnsCaseCreate() {
         params: {
             routingKey: "task",
             viewType: "quickcreate",
-     data: {
-                description: "Nuevo caso desde script"
+            initialValues: {
+                field_description: "Nuevo caso desde script"
             }
         }
     };
 
+    console.log("=== MENSAJE A ENVIAR ===");
+    console.log("operation:", oCase.operation);
+    console.log("params:", oCase.params);
+    console.log("routingKey:", oCase.params.routingKey);
+    console.log("viewType:", oCase.params.viewType);
+    console.log("initialValues:", oCase.params.initialValues);
+    console.log("JSON completo:", JSON.stringify(oCase, null, 2));
+
     window.parent.postMessage(oCase, "*");
+
+    console.log("postMessage enviado");
 }
 
 
