@@ -204,9 +204,7 @@ viewType: "quickview"
 
       // Open Case Quick Create view
 function openNewCnsCaseCreate() {
-  	var oCase={operation:"navigation", params: {routingKey: "task", viewType:"quickcreate",    defaultValues: {
-                subject: "Nuevo caso desde script"
-            }
+  	var oCase={operation:"navigation", params: {routingKey: "task", viewType:"quickcreate",   subject: "Nuevo caso desde script"
 											   }};
 	self.window.parent.postMessage(oCase, '*')
 }
