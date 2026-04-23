@@ -208,10 +208,8 @@ function openNewCnsCaseCreate() {
         params: {
             routingKey: "task",
             viewType: "quickcreate",
-            initialValues: {
-                description: "Nuevo caso desde script",   // usar nombre técnico correcto
-                priority: "HIGH",                         // ejemplo adicional
-                status: "OPEN"                            // depende del objeto
+     data: {
+                description: "Nuevo caso desde script"
             }
         }
     };
