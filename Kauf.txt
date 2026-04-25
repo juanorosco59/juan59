@@ -1,1 +1,257 @@
 
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f7f6;
+        gap: 20px;
+      }
+
+      .sap-button {
+        background-color: #0854a0;
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .sap-section {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px dashed #ccc;
+        width: 100%;
+        text-align: center;
+      }
+
+      .sap-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ========================= -->
+    <!-- NAVEGACIÓN WEB NORMAL     -->
+    <!-- ========================= -->
+
+    <button class="sap-button" onclick="launchNavigation()">
+      Test 8.0 iOS
+    </button>
+
+    <button class="sap-button" onclick="openPdfMismaLogica()">
+      Abrir PDF 8.1
+    </button>
+
+    <!-- ========================= -->
+    <!-- EVENTOS SAP SALES CLOUD V2 -->
+    <!-- ========================= -->
+
+    <div class="sap-section">
+      <div class="sap-title">Acción CXV2</div>
+
+      <button class="sap-button" onclick="navigateToSapCustomer()">
+        callNavigation
+      </button>
+    </div>
+
+
+        <!-- ========================= -->
+    <!-- Call Refresh -->
+    <!-- ========================= -->
+
+    <div class="sap-section">
+      <div class="sap-title">Refresh</div>
+
+      <button class="sap-button" onclick="callRefresh()">
+        callRefresh
+      </button>
+    </div>
+
+
+        <div class="sap-section">
+      <div class="sap-title">callCreate</div>
+
+      <button class="sap-button" onclick="openNewCnsCaseCreate()">
+        callCreate
+      </button>
+    </div>
+
+    
+
+
+    <!-- ========================= -->
+<!-- PARAMS URL DISPLAY        -->
+<!-- ========================= -->
+
+<div class="sap-section">
+  <div class="sap-title">Parámetros de la URL</div>
+
+  <p id="url-status"></p>
+  <p id="url-pass"></p>
+  <p id="url-subject"></p>
+</div>
+
+    <script>
+      /* ===================================================== */
+      /* LÓGICA WEB NORMAL                                     */
+      /* ===================================================== */
+
+      function launchNavigation() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const idVisita = urlParams.get("idVisita") || "Sin_IdVisita";
+
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const dispositivoTag = isMobile
+          ? "Celular_iOS_Android"
+          : "Escritorio";
+
+        const queryText = `${idVisita} (Deteccion: ${dispositivoTag})`;
+        const urlDestino =
+          "https://www.google.com/search?q=" +
+          encodeURIComponent(queryText);
+
+        try {
+          if (isMobile && window.top && window.top !== window) {
+            window.location.href = urlDestino;
+          } else {
+            const newWin = window.open(urlDestino, "_blank");
+            if (!newWin) {
+              window.location.assign(urlDestino);
+            }
+          }
+        } catch (e) {
+          window.location.assign(urlDestino);
+        }
+      }
+
+      function openPdfMismaLogica() {
+        const pdfUrl = "VPN_Kaufmann.pdf";
+        const pdfUrl2 = "";
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        try {
+          if (isMobile && window.top && window.top !== window) {
+            //window.location.href = pdfUrl;
+            window.top.location.href = pdfUrl;
+          } else {
+            const newWin = window.open(
+              pdfUrl,
+              "_blank",
+              "width=800,height=600,scrollbars=yes,resizable=yes"
+            );
+
+            if (!newWin) {
+              window.location.assign(pdfUrl2);
+            }
+          }
+        } catch (e) {
+          window.location.assign(pdfUrl);
+        }
+        
+      }
+
+      /* ===================================================== */
+      /* LÓGICA SAP SALES CLOUD V2                */
+      /* ===================================================== */
+
+  function navigateToSapCustomer() {
+    const sapEvent = {
+      operation: "navigation",
+      params: {
+        objectKey: "11effdbc-ddd0-a24e-afdb-811bf0020a00",
+        routingKey: "mdindividualcustomer",
+        //viewType: "details"
+viewType: "quickview"
+		  
+      }
+    };
+
+    try {
+      //
+      window.parent.postMessage(sapEvent, "*");
+    } catch (e) {
+      console.error("Error enviando evento SAP", e);
+    }
+  }
+    
+          /* ===================================================== */
+      /* LÓGICA SAP REFRESH                 */
+      /* ===================================================== */
+
+  function callRefresh() {
+    var event = {  event: "refresh_mashup",
+                  operation: "triggerCustomAction"
+    };
+      window.parent.postMessage(event, '*')
+    };
+
+
+function openNewCnsCaseCreate() {
+    var oCase = {
+        operation: "navigation",
+        params: {
+            routingKey: "task",
+            viewType: "quickcreate",
+            initialValues: {
+                field_description: "Nuevo caso desde script"
+            }
+        }
+    };
+
+    console.log("=== MENSAJE A ENVIAR ===");
+    console.log("operation:", oCase.operation);
+    console.log("params:", oCase.params);
+    console.log("routingKey:", oCase.params.routingKey);
+    console.log("viewType:", oCase.params.viewType);
+    console.log("initialValues:", oCase.params.initialValues);
+    console.log("JSON completo:", JSON.stringify(oCase, null, 2));
+
+    window.parent.postMessage(oCase, "*");
+
+    console.log("postMessage enviado");
+}
+
+
+    
+    </script>
+
+
+
+    <script>
+        /* ===================================================== */
+  /* Params               */
+  /* ===================================================== */
+  function mostrarParametrosURL() {
+    const params = new URLSearchParams(window.location.search);
+
+    const status = params.get("status") || "N/A";
+    const pass = params.get("pass") || "N/A";
+    const subject = params.get("subject") || "N/A";
+
+    document.getElementById("url-status").innerText = "Status: " + status;
+    document.getElementById("url-pass").innerText = "Pass: " + pass;
+    document.getElementById("url-subject").innerText = "Subject: " + subject;
+  }
+
+  // Ejecutar al cargar la página
+  window.onload = mostrarParametrosURL;
+</script>
+  </body>
+</html>
