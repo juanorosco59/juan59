@@ -158,17 +158,34 @@
          ✅ FUNCIÓN CORRECTA GLOBAL
       ========================= */
 
-      window.crearTareaV2 = function () {
-        NavManagerUtil.quickCreate("crm-task-create-qv", [
-          {
-            name: "task",
-            value: {
-              startDateTime: "2026-04-28T09:00:00Z",
-              dueDateTime: "2026-04-28T09:30:00Z"
-            }
+function crearTareaV2() {
+  if (typeof NavManagerUtil !== "undefined" && NavManagerUtil.quickCreate) {
+    NavManagerUtil.quickCreate("crm-task-create-qv", [
+      {
+        name: "task",
+        value: {
+          startDateTime: "2026-04-28T09:00:00Z",
+          dueDateTime: "2026-04-28T09:30:00Z"
+        }
+      }
+    ]);
+  } else {
+    window.parent.postMessage(
+      {
+        operation: "navigation",
+        params: {
+          routingKey: "task",
+          viewType: "quickcreate",
+          initialValues: {
+            startDateTime: "2026-04-28T09:00:00Z",
+            dueDateTime: "2026-04-28T09:30:00Z"
           }
-        ]);
-      };
+        }
+      },
+      "*"
+    );
+  }
+}
 
       /* =========================
          URL PARAMS
@@ -184,6 +201,8 @@
         document.getElementById("url-subject").innerText =
           "Subject: " + (params.get("subject") || "N/A");
       }
+
+      
 
       window.onload = mostrarParametrosURL;
     </script>
