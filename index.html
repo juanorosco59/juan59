@@ -91,6 +91,10 @@
       <button class="sap-button" onclick="openNewCnsCaseCreate()">
         callCreate
       </button>
+
+			   <button class="sap-button" onclick="crearTareaV2()">
+        createTarea
+      </button>
     </div>
 
     
@@ -214,6 +218,19 @@ function openNewCnsCaseCreate() {
             }
         }
     };
+
+
+function crearTareaV2() {
+  NavManagerUtil.quickCreate('crm-task-create-qv', [
+    {
+      name: 'task',
+      value: {
+        startDateTime: '2026-04-28T09:00:00Z',
+        dueDateTime: '2026-04-28T09:30:00Z'
+      }
+    }
+  ]);
+}
 
     console.log("=== MENSAJE A ENVIAR ===");
     console.log("operation:", oCase.operation);
