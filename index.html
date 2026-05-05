@@ -204,6 +204,21 @@ function crearTareaV2() {
     "*"
   );
 }
+
+      function crearTareaV4() {
+  window.parent.postMessage({
+    event: "navigation",
+    operation: "triggerNavigation",
+    params: {
+      routingKey: "task",
+      viewType: "quickcreate",
+      initialValues: {
+        startDateTime: "2026-04-28T09:00:00Z",
+        dueDateTime: "2026-04-28T09:30:00Z"
+      }
+    }
+  }, "*");
+}
       /* =========================
          URL PARAMS
       ========================= */
