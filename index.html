@@ -205,19 +205,21 @@ function crearTareaV2() {
   );
 }
 
-      function crearTareaV4() {
-  window.parent.postMessage({
-    event: "navigation",
-    operation: "triggerNavigation",
-    params: {
-      routingKey: "task",
-      viewType: "quickcreate",
-      initialValues: {
-        startDateTime: "2026-04-10T09:00:00Z",
-        dueDateTime: "2026-04-10T10:00:00Z"
+ function crearTareaV4() {
+  window.parent.postMessage(
+    {
+      operation: "navigation",
+      params: {
+        routingKey: "task",
+        viewType: "quickcreate",
+        initialValues: {
+          startDateTime: "2026-04-10T09:00:00Z",
+          dueDateTime: "2026-04-10T10:00:00Z"
+        }
       }
-    }
-  }, "*");
+    },
+    "*"
+  );
 }
       /* =========================
          URL PARAMS
