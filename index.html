@@ -206,17 +206,7 @@ viewType: "quickview"
       window.parent.postMessage(event, '*')
     };
 
-		function crearTareaV2() {
-  NavManagerUtil.quickCreate('crm-task-create-qv', [
-    {
-      name: 'task',
-      value: {
-        startDateTime: '2026-04-28T09:00:00Z',
-        dueDateTime: '2026-04-28T09:30:00Z'
-      }
-    }
-  ]);
-};
+
 
 function openNewCnsCaseCreate() {
     var oCase = {
@@ -246,7 +236,17 @@ function openNewCnsCaseCreate() {
     console.log("postMessage enviado");
 }
 
-
+		function crearTareaV2() {
+  NavManagerUtil.quickCreate('crm-task-create-qv', [
+    {
+      name: 'task',
+      value: {
+        startDateTime: '2026-04-28T09:00:00Z',
+        dueDateTime: '2026-04-28T09:30:00Z'
+      }
+    }
+  ]);
+};
     
     </script>
 
