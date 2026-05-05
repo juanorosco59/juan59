@@ -47,6 +47,7 @@
 
   <body>
 
+    <!-- BOTONES -->
     <button class="sap-button" onclick="launchNavigation()">
       Test 8.0 iOS
     </button>
@@ -57,7 +58,6 @@
 
     <div class="sap-section">
       <div class="sap-title">Acción CXV2</div>
-
       <button class="sap-button" onclick="navigateToSapCustomer()">
         callNavigation
       </button>
@@ -65,7 +65,6 @@
 
     <div class="sap-section">
       <div class="sap-title">Refresh</div>
-
       <button class="sap-button" onclick="callRefresh()">
         callRefresh
       </button>
@@ -84,8 +83,7 @@
     </div>
 
     <div class="sap-section">
-      <div class="sap-title">Parámetros de la URL</div>
-
+      <div class="sap-title">Parámetros URL</div>
       <p id="url-status"></p>
       <p id="url-pass"></p>
       <p id="url-subject"></p>
@@ -97,33 +95,21 @@
       ========================= */
 
       function launchNavigation() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const idVisita = urlParams.get("idVisita") || "Sin_IdVisita";
+        const params = new URLSearchParams(window.location.search);
+        const idVisita = params.get("idVisita") || "Sin_IdVisita";
 
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        const dispositivoTag = isMobile ? "Celular_iOS_Android" : "Escritorio";
+        const dispositivoTag = isMobile ? "Mobile" : "Desktop";
 
-        const queryText = `${idVisita} (Deteccion: ${dispositivoTag})`;
         const urlDestino =
-          "https://www.google.com/search?q=" + encodeURIComponent(queryText);
+          "https://www.google.com/search?q=" +
+          encodeURIComponent(idVisita + " " + dispositivoTag);
 
-        try {
-          const newWin = window.open(urlDestino, "_blank");
-          if (!newWin) window.location.assign(urlDestino);
-        } catch (e) {
-          window.location.assign(urlDestino);
-        }
+        window.open(urlDestino, "_blank");
       }
 
       function openPdfMismaLogica() {
-        const pdfUrl = "VPN_Kaufmann.pdf";
-
-        try {
-          const newWin = window.open(pdfUrl, "_blank");
-          if (!newWin) window.location.assign(pdfUrl);
-        } catch (e) {
-          window.location.assign(pdfUrl);
-        }
+        window.open("VPN_Kaufmann.pdf", "_blank");
       }
 
       /* =========================
@@ -144,12 +130,13 @@
       }
 
       function callRefresh() {
-        const event = {
-          event: "refresh_mashup",
-          operation: "triggerCustomAction"
-        };
-
-        window.parent.postMessage(event, "*");
+        window.parent.postMessage(
+          {
+            event: "refresh_mashup",
+            operation: "triggerCustomAction"
+          },
+          "*"
+        );
       }
 
       function openNewCnsCaseCreate() {
@@ -164,12 +151,11 @@
           }
         };
 
-        console.log("MENSAJE:", oCase);
         window.parent.postMessage(oCase, "*");
       }
 
       /* =========================
-         ✔ CORRECCIÓN CLAVE
+         ✅ FUNCIÓN CORRECTA GLOBAL
       ========================= */
 
       window.crearTareaV2 = function () {
